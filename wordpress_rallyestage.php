@@ -21,6 +21,7 @@ require_once RALLYESTAGE_PLUGIN_DIR . 'includes/class-wp-pages.php';
 require_once RALLYESTAGE_PLUGIN_DIR . 'includes/class-admin.php';
 require_once RALLYESTAGE_PLUGIN_DIR . 'includes/class-shortcode-zeitplan.php';
 require_once RALLYESTAGE_PLUGIN_DIR . 'includes/class-shortcode-wp-map.php';
+require_once RALLYESTAGE_PLUGIN_DIR . 'includes/class-shortcode-nennungen.php';
 require_once RALLYESTAGE_PLUGIN_DIR . 'includes/class-rest-routes.php';
 
 register_activation_hook(__FILE__, function () {
@@ -36,6 +37,7 @@ add_action('plugins_loaded', function () {
     new Rallyestage_Admin();
     new Rallyestage_Shortcode_Zeitplan();
     new Rallyestage_Shortcode_WP_Map();
+    new Rallyestage_Shortcode_Nennungen();
     new Rallyestage_WP_Pages();
     new Rallyestage_Rest_Routes();
 });

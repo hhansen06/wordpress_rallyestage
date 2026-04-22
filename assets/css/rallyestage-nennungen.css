@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Rallyestage Nennungen – Theme-friendly frontend styles
+   Based on driver-of-the-day plugin design
+   ========================================================================== */
+
+.rallyestage-nennungen-wrap {
+    --nennungen-primary: var(--wp--preset--color--primary, var(--global--color-primary, currentColor));
+    --nennungen-primary-soft: color-mix(in srgb, var(--nennungen-primary) 10%, transparent);
+    --nennungen-border: color-mix(in srgb, currentColor 25%, transparent);
+    --nennungen-soft: color-mix(in srgb, currentColor 8%, transparent);
+    --nennungen-soft-strong: color-mix(in srgb, currentColor 14%, transparent);
+
+    box-sizing: border-box;
+    font: inherit;
+    color: inherit;
+    margin: 1rem 0;
+}
+
+.rallyestage-nennungen-wrap *,
+.rallyestage-nennungen-wrap *::before,
+.rallyestage-nennungen-wrap *::after {
+    box-sizing: inherit;
+}
+
+/* Grid Layout */
+.rallyestage-nennungen-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+/* Card */
+.rallyestage-nennungen-card {
+    background: transparent;
+    border: 1px solid var(--nennungen-border);
+    border-radius: 0.6rem;
+    padding: 0.85rem;
+    transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.12s ease;
+    position: relative;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.rallyestage-nennungen-card:hover {
+    border-color: currentColor;
+    background: var(--nennungen-soft);
+    transform: translateY(-1px);
+}
+
+/* Card Elements */
+.rallyestage-card-nr {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--nennungen-primary);
+}
+
+.rallyestage-card-driver {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--nennungen-primary);
+}
+
+.rallyestage-card-codriver,
+.rallyestage-card-vehicle {
+    font-size: 0.88rem;
+    color: inherit;
+    opacity: 0.82;
+}
+
+.rallyestage-card-klasse {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--nennungen-primary);
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+    margin-top: auto;
+    width: fit-content;
+    background: var(--nennungen-primary-soft);
+    color: var(--nennungen-primary);
+}
+
+/* Footer */
+.rallyestage-nennungen-footer {
+    text-align: center;
+    font-size: 0.86rem;
+    color: inherit;
+    opacity: 0.82;
+    margin-top: 0.85rem;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .rallyestage-nennungen-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Fallback for older browsers without color-mix */
+@supports not (background: color-mix(in srgb, black, white)) {
+    .rallyestage-nennungen-wrap {
+        --nennungen-primary-soft: rgba(0, 0, 0, 0.06);
+        --nennungen-border: rgba(0, 0, 0, 0.2);
+        --nennungen-soft: rgba(0, 0, 0, 0.04);
+        --nennungen-soft-strong: rgba(0, 0, 0, 0.08);
+    }
+}

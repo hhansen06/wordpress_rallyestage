@@ -210,6 +210,10 @@ class Rallyestage_Admin
                             untereinander. Wertungsprüfungen werden hervorgehoben und verlinken zur Detailseite.</td>
                     </tr>
                     <tr>
+                        <td><code>[rallyestage_nennungen]</code></td>
+                        <td>Zeigt alle Teilnehmer in einem responsiven Karten-Grid. Anzeige: Startnummer, Fahrer, Beifahrer, Fahrzeug und Klasse.</td>
+                    </tr>
+                    <tr>
                         <td><code>[rallyestage_wp id="<em>ID</em>"]</code></td>
                         <td>Zeigt die OpenStreetMap-Karte einer Wertungsprüfung mit Streckenverlauf und POIs (SS Start, Flying
                             Finish, Zuschauerpunkte). Wird automatisch auf den generierten WP-Seiten eingebunden.</td>
