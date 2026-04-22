@@ -19,6 +19,38 @@ class Rallyestage_Shortcode_Zeitplan
             [],
             RALLYESTAGE_VERSION
         );
+        
+        // Dynamische Farbe für Tabellenköpfe basierend auf Theme-Einstellung
+        $header_bg_color = $this->get_theme_header_color();
+        $custom_css = "
+            .rallyestage-day-header {
+                background: {$header_bg_color} !important;
+            }
+        ";
+        wp_add_inline_style('rallyestage', $custom_css);
+    }
+
+    private function get_theme_header_color(): string
+    {
+        // Versuche die Farbe aus dem BAM Theme Customizer zu holen
+        // Häufige Customizer-Optionen für Menüfarbe
+        $color_options = [
+            'bam_menu_background_color',
+            'menu_background_color',
+            'header_background_color',
+            'primary_color',
+            'bam_primary_color'
+        ];
+        
+        foreach ($color_options as $option) {
+            $color = get_theme_mod($option);
+            if ($color && preg_match('/^#[0-9a-fA-F]{6}$/', $color)) {
+                return $color;
+            }
+        }
+        
+        // Fallback auf Standard-Dunkelgrau
+        return '#222222';
     }
 
     public function render(): string
