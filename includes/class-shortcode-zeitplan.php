@@ -32,20 +32,18 @@ class Rallyestage_Shortcode_Zeitplan
 
     private function get_theme_header_color(): string
     {
-        // Versuche die Farbe aus dem BAM Theme Customizer zu holen
-        // Häufige Customizer-Optionen für Menüfarbe
-        $color_options = [
-            'bam_menu_background_color',
-            'menu_background_color',
-            'header_background_color',
-            'primary_color',
-            'bam_primary_color'
-        ];
-        
-        foreach ($color_options as $option) {
-            $color = get_theme_mod($option);
-            if ($color && preg_match('/^#[0-9a-fA-F]{6}$/', $color)) {
-                return $color;
+        // Prüfe ob BAM-Theme aktiv ist
+        if ( get_stylesheet() === 'bam' || get_template() === 'bam' ) {
+            // Hole die Topbar-Hintergrundfarbe aus dem BAM-Theme
+            $topbar_bg = sanitize_hex_color( (string) get_theme_mod( 'bam_topbar_bg_color', '' ) );
+            if ( ! empty( $topbar_bg ) ) {
+                return $topbar_bg;
+            }
+            
+            // Fallback auf Primary Color wenn Topbar-Farbe nicht gesetzt
+            $primary_color = sanitize_hex_color( (string) get_theme_mod( 'bam_primary_color', '#ff4f4f' ) );
+            if ( ! empty( $primary_color ) ) {
+                return $primary_color;
             }
         }
         
