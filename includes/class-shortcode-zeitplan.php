@@ -26,7 +26,7 @@ class Rallyestage_Shortcode_Zeitplan
         $data = Rallyestage_API::get_cached_data();
 
         if (!$data) {
-            return '<p class="rallyestage-error">Keine Eventdaten vorhanden. Bitte Cache im Admin aktualisieren.</p>';
+            return '<p class="rallyestage-error">Kein Zeitplan gefunden.</p>';
         }
 
         $schedule = $data['schedule'] ?? [];
