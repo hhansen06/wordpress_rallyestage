@@ -43,6 +43,20 @@ class Rallyestage_API
     }
 
     /**
+     * Prüft, ob ein Schedule-Eintrag ausgeblendet werden soll.
+     *
+     * @param array $entry Der Schedule-Eintrag
+     * @return bool True wenn der Eintrag ausgeblendet werden soll
+     */
+    public static function is_entry_hidden(array $entry): bool
+    {
+        $entry_id = intval($entry['id'] ?? 0);
+        $hidden = get_option('rallyestage_hidden_entries', []);
+        
+        return in_array($entry_id, $hidden, true);
+    }
+
+    /**
      * Ruft Eventdaten von der API ab, speichert sie im Cache (wp_options)
      * und triggert die Synchronisierung der WP-Seiten.
      *

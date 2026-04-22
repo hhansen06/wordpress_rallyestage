@@ -79,6 +79,7 @@ class Rallyestage_Admin
         }
         check_admin_referer('rallyestage_save_overrides');
 
+        // Text-Überschreibungen verarbeiten
         $overrides = [];
         if (isset($_POST['title_override']) && is_array($_POST['title_override'])) {
             foreach ($_POST['title_override'] as $id => $title) {
@@ -89,7 +90,18 @@ class Rallyestage_Admin
             }
         }
 
+        // Ausgeblendete Einträge verarbeiten
+        $hidden = [];
+        if (isset($_POST['entry_hidden']) && is_array($_POST['entry_hidden'])) {
+            foreach ($_POST['entry_hidden'] as $id => $value) {
+                if ($value === '1') {
+                    $hidden[] = intval($id);
+                }
+            }
+        }
+
         update_option('rallyestage_title_overrides', $overrides, false);
+        update_option('rallyestage_hidden_entries', $hidden, false);
 
         wp_safe_redirect(admin_url('options-general.php?page=rallyestage-overrides&saved=1'));
         exit;
@@ -233,6 +245,7 @@ class Rallyestage_Admin
 
         $cached = Rallyestage_API::get_cached_data();
         $overrides = get_option('rallyestage_title_overrides', []);
+        $hidden = get_option('rallyestage_hidden_entries', []);
         ?>
         <div class="wrap">
             <h1>Rallyestage – Text-Überschreibungen</h1>
@@ -250,7 +263,7 @@ class Rallyestage_Admin
                             Einstellungen</a>.</p>
                 </div>
             <?php else: ?>
-                <p>Hier können Sie für jedes Terminelement den angezeigten Text überschreiben. Lassen Sie ein Feld leer, um den
+                <p>Hier können Sie für jedes Terminelement den angezeigten Text überschreiben oder den Eintrag ausblenden. Lassen Sie ein Feld leer, um den
                     Original-Text zu verwenden.</p>
 
                 <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
@@ -266,6 +279,7 @@ class Rallyestage_Admin
                                 <th style="width:40px;">WP</th>
                                 <th>Original-Text</th>
                                 <th style="width:300px;">Überschreiben mit</th>
+                                <th style="width:100px;">Ausblenden</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -282,6 +296,7 @@ class Rallyestage_Admin
                             foreach ($schedule as $entry):
                                 $entry_id = intval($entry['id']);
                                 $override_value = $overrides[$entry_id] ?? '';
+                                $is_hidden = in_array($entry_id, $hidden, true);
                                 ?>
                                 <tr>
                                     <td><?php echo esc_html($entry_id); ?></td>
@@ -293,6 +308,10 @@ class Rallyestage_Admin
                                         <input type="text" name="title_override[<?php echo esc_attr($entry_id); ?>]"
                                             value="<?php echo esc_attr($override_value); ?>" class="widefat"
                                             placeholder="<?php echo esc_attr($entry['title'] ?? ''); ?>" />
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <input type="checkbox" name="entry_hidden[<?php echo esc_attr($entry_id); ?>]"
+                                            value="1" <?php checked($is_hidden, true); ?> />
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

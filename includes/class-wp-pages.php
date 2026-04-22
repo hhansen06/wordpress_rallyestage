@@ -42,6 +42,25 @@ class Rallyestage_WP_Pages
             status_header(404);
             return get_404_template();
         }
+
+        // Prüfen, ob der Eintrag existiert und nicht ausgeblendet ist
+        $wp_id = intval(get_query_var('rallyestage_wp_id'));
+        $data = Rallyestage_API::get_cached_data();
+        
+        if ($data) {
+            foreach ($data['schedule'] as $entry) {
+                if ((int) $entry['id'] === $wp_id && $entry['is_wp']) {
+                    // Eintrag gefunden - prüfen ob ausgeblendet
+                    if (Rallyestage_API::is_entry_hidden($entry)) {
+                        global $wp_query;
+                        $wp_query->set_404();
+                        status_header(404);
+                        return get_404_template();
+                    }
+                    break;
+                }
+            }
+        }
         
         $custom = RALLYESTAGE_PLUGIN_DIR . 'templates/wp-detail.php';
         return file_exists($custom) ? $custom : $template;

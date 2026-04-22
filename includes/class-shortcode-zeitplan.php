@@ -26,7 +26,7 @@ class Rallyestage_Shortcode_Zeitplan
         $data = Rallyestage_API::get_cached_data();
 
         if (!$data) {
-            return '<p class="rallyestage-error">Keine Eventdaten vorhanden. Bitte Cache im Admin aktualisieren.</p>';
+            return '<p class="rallyestage-error">Keine Eventdaten vorhanden. Bitte Cache aktualisieren.</p>';
         }
 
         $schedule = $data['schedule'] ?? [];
@@ -41,6 +41,10 @@ class Rallyestage_Shortcode_Zeitplan
         // Einträge nach Datum gruppieren und Datum aufsteigend sortieren
         $days = [];
         foreach ($schedule as $entry) {
+            // Ausgeblendete Einträge überspringen
+            if (Rallyestage_API::is_entry_hidden($entry)) {
+                continue;
+            }
             $days[$entry['entry_date']][] = $entry;
         }
         ksort($days);

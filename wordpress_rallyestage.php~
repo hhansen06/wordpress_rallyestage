@@ -3,7 +3,7 @@
  * Plugin Name: Rallyestage
  * Plugin URI:  https://rallyestage.de
  * Description: Zeigt Zeitplan und Wertungsprüfungen von rallyestage.de
- * Version:     @VERSION@
+ * Version:     {{VERSION}}
  * Author:      Henrik Hansen
  * License:     GPL-2.0+
  * Text Domain: rallyestage
